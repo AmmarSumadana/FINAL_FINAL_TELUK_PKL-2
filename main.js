@@ -239,7 +239,7 @@ async function loadGeoJSON(path, fileObj, groupKey, groupContainer) {
 }
 
 async function init() {
-    const legend = document.getElementById("legend-content");
+    const legendContent = document.getElementById("legend-content");
 
     const groupOrder = ["polygon", "garis", "titik", "label"];
     const groupLabels = {
@@ -264,7 +264,7 @@ async function init() {
         container.className = "sortable-group";
         wrapper.appendChild(container);
 
-        legend.appendChild(wrapper);
+        legendContent.appendChild(wrapper);
         groups[groupKey] = container;
     }
 
@@ -297,7 +297,7 @@ async function init() {
         });
     });
 
-    new Sortable(legend, {
+    new Sortable(legendContent, {
         animation: 150,
         handle: ".legend-group-title",
         onEnd: updateLayerOrder
@@ -335,34 +335,42 @@ function updateLayerOrder() {
 
 init();
 
-// PERBAIKAN: Logika untuk tombol toggle legenda disederhanakan
+
+// =======================================================
+// --- KODE TOGGLE LEGEND (VERSI FINAL & TERUJI) ---
+// =======================================================
+
 const legend = document.getElementById("legend");
 const toggleBtn = document.getElementById("toggle-legend");
 const mapElement = document.getElementById("map");
 
-function adjustLayout() {
+function updateLayout() {
     const isMobile = window.innerWidth <= 768;
     const isHidden = legend.classList.contains('hidden');
 
+    // 1. Atur Tampilan Tombol dan Peta berdasarkan State
     if (isMobile) {
-        // Pada mobile, map selalu full-width
-        mapElement.style.left = "0";
-        // Tombol panah ke atas jika tersembunyi, ke bawah jika tampil
+        // Mode Mobile: Peta selalu full width, tombol di tengah bawah
+        mapElement.style.left = '0';
+        toggleBtn.style.left = '50%';
+        toggleBtn.style.transform = 'translateX(-50%)';
         toggleBtn.innerHTML = isHidden ? "⮝" : "⮟";
     } else {
-        // Pada desktop, map menyesuaikan dengan legenda
-        mapElement.style.left = isHidden ? "0" : "320px";
-        // Tombol panah ke kanan jika tersembunyi, ke kiri jika tampil
+        // Mode Desktop: Peta dan tombol bergeser
+        mapElement.style.left = isHidden ? '0' : '320px';
+        toggleBtn.style.left = isHidden ? '30px' : '340px';
+        toggleBtn.style.transform = 'none'; // Hapus transform mobile
         toggleBtn.innerHTML = isHidden ? "⮞" : "⮜";
     }
 }
 
+// 2. Event Listener untuk Klik Tombol
 toggleBtn.addEventListener("click", () => {
-    // Aksi utamanya hanya toggle kelas 'hidden'
+    // Aksi utama hanya toggle kelas 'hidden'
     legend.classList.toggle("hidden");
     
-    // Sesuaikan layout setelah mengubah kelas
-    adjustLayout();
+    // Perbarui layout setelah mengubah kelas
+    updateLayout();
     
     // Beri waktu untuk animasi selesai sebelum map di-resize
     setTimeout(() => {
@@ -370,15 +378,21 @@ toggleBtn.addEventListener("click", () => {
     }, 400); 
 });
 
-// Panggil saat halaman dimuat dan saat ukuran window diubah
+// 3. Atur State Awal saat Halaman Dimuat
 window.addEventListener('DOMContentLoaded', () => {
-    // Saat pertama kali load, pastikan legenda tersembunyi di mobile
+    // Di mobile, legenda harus selalu tersembunyi saat pertama kali dimuat.
+    // Di desktop, biarkan state default dari HTML (tidak tersembunyi).
     if (window.innerWidth <= 768) {
         legend.classList.add('hidden');
     } else {
-        legend.classList.remove('hidden'); // Tampilkan di desktop
+        legend.classList.remove('hidden'); // Pastikan terlihat di desktop
     }
-    adjustLayout();
+    // Panggil updateLayout untuk mengatur posisi awal yang benar
+    updateLayout();
 });
 
-window.addEventListener('resize', adjustLayout);
+// 4. Atur Ulang Layout saat Ukuran Jendela Berubah
+window.addEventListener('resize', () => {
+    // Panggil updateLayout untuk menyesuaikan tampilan secara dinamis
+    updateLayout();
+});
