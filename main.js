@@ -141,13 +141,11 @@ async function loadGeoJSON(path, fileObj, groupKey, groupContainer) {
     const { name, identitas, defaultColors } = fileObj;
     
     try {
-        console.log(`Mencoba memuat: ${path}${name}`);
         const res = await fetch(path + name);
         if (!res.ok) {
             throw new Error(`Gagal memuat file: ${name} (Status: ${res.status})`);
         }
         const data = await res.json();
-        console.log(`Berhasil memuat ${name}, ditemukan ${data.features?.length || 0} fitur.`);
 
         const grouped = {};
         if (identitas && data.features) {
@@ -183,7 +181,6 @@ async function loadGeoJSON(path, fileObj, groupKey, groupContainer) {
                     onEachFeature: (feature, line) => {
                         line.bindPopup(makePopup(feature.properties));
                         if (feature.properties && feature.properties.KETERANGAN) {
-                             // Tambahkan textPath langsung ke layer garis
                             line.setText(feature.properties.KETERANGAN, {
                                 center: true,
                                 offset: 10,
@@ -338,46 +335,50 @@ function updateLayerOrder() {
 
 init();
 
-// Logika untuk tombol toggle legenda
+// PERBAIKAN: Logika untuk tombol toggle legenda disederhanakan
 const legend = document.getElementById("legend");
 const toggleBtn = document.getElementById("toggle-legend");
 const mapElement = document.getElementById("map");
 
-function adjustLayoutForScreenSize() {
+function adjustLayout() {
     const isMobile = window.innerWidth <= 768;
-    
+    const isHidden = legend.classList.contains('hidden');
+
     if (isMobile) {
-        // Jika sedang di mobile, pastikan legenda tersembunyi saat pertama kali
-        if (!legend.classList.contains('hidden')) {
-             legend.classList.add('hidden');
-        }
-        toggleBtn.innerHTML = "⮝"; // Set ikon panah ke atas
-        mapElement.style.left = "0"; // Map selalu full width
+        // Pada mobile, map selalu full-width
+        mapElement.style.left = "0";
+        // Tombol panah ke atas jika tersembunyi, ke bawah jika tampil
+        toggleBtn.innerHTML = isHidden ? "⮝" : "⮟";
     } else {
-        // Jika di desktop, kembalikan ke state normal
-        toggleBtn.innerHTML = legend.classList.contains('hidden') ? "⮞" : "⮜";
-        mapElement.style.left = legend.classList.contains('hidden') ? "0" : "320px";
+        // Pada desktop, map menyesuaikan dengan legenda
+        mapElement.style.left = isHidden ? "0" : "320px";
+        // Tombol panah ke kanan jika tersembunyi, ke kiri jika tampil
+        toggleBtn.innerHTML = isHidden ? "⮞" : "⮜";
     }
 }
 
-
 toggleBtn.addEventListener("click", () => {
-    const isMobile = window.innerWidth <= 768;
+    // Aksi utamanya hanya toggle kelas 'hidden'
     legend.classList.toggle("hidden");
-
-    if (isMobile) {
-        // Di mobile, tombol tidak bergerak, hanya ganti ikon
-        toggleBtn.innerHTML = legend.classList.contains('hidden') ? "⮝" : "⮟";
-    } else {
-        // Di desktop, tombol bergerak dan ganti ikon
-        mapElement.style.left = legend.classList.contains('hidden') ? "0" : "320px";
-        toggleBtn.innerHTML = legend.classList.contains('hidden') ? "⮞" : "⮜";
-    }
-
-    setTimeout(() => { map.invalidateSize(); }, 400); // Resize peta setelah animasi
+    
+    // Sesuaikan layout setelah mengubah kelas
+    adjustLayout();
+    
+    // Beri waktu untuk animasi selesai sebelum map di-resize
+    setTimeout(() => {
+        map.invalidateSize();
+    }, 400); 
 });
 
-
 // Panggil saat halaman dimuat dan saat ukuran window diubah
-window.addEventListener('DOMContentLoaded', adjustLayoutForScreenSize);
-window.addEventListener('resize', adjustLayoutForScreenSize);
+window.addEventListener('DOMContentLoaded', () => {
+    // Saat pertama kali load, pastikan legenda tersembunyi di mobile
+    if (window.innerWidth <= 768) {
+        legend.classList.add('hidden');
+    } else {
+        legend.classList.remove('hidden'); // Tampilkan di desktop
+    }
+    adjustLayout();
+});
+
+window.addEventListener('resize', adjustLayout);

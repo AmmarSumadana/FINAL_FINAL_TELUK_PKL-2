@@ -1,5 +1,5 @@
 /* ======================================================= */
-/*    STYLE.CSS - DEFINITIVE SOFT BLUE ASTRO THEME (FINAL)   */
+/* STYLE.CSS - DEFINITIVE SOFT BLUE ASTRO THEME (FINAL)   */
 /* ======================================================= */
 
 /* --- Keyframe Animations --- */
@@ -220,50 +220,17 @@ body {
     transform: scale(1.03);
 }
 
-/* --- Map Legend with Soft Blue "Luminous" Style --- */
+/* --- Map & Legend --- */
 #map {
     position: fixed;
     top: 73px;
-    left: 320px;
+    left: 320px; /* Default untuk desktop */
     right: 0;
     bottom: 0;
     z-index: 1;
     transition: left 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* --- Leaflet Label Styling --- */
-/* Untuk Toponimi (Titik) */
-.map-label {
-    background-color: rgba(255, 255, 255, 0.8);
-    border: 1px solid rgba(0, 0, 0, 0.2);
-    border-radius: 4px;
-    padding: 2px 5px;
-    font-size: 11px;
-    font-weight: bold;
-    color: #333;
-    text-shadow: 1px 1px 2px white;
-    box-shadow: none;
-    white-space: nowrap;
-}
-
-/* Untuk menyembunyikan ikon marker default */
-.hidden-icon {
-    background-color: transparent;
-    border: none;
-}
-
-/* Untuk teks yang mengikuti garis (Jalan & Sungai) */
-.text-path {
-    font-size: 10px;
-    font-weight: 600;
-    paint-order: stroke;
-    stroke: #ffffff;
-    stroke-width: 2px;
-    stroke-linecap: butt;
-    stroke-linejoin: miter;
-}
-
-/* Map Legend Panel */
 #legend {
     position: fixed;
     top: 73px;
@@ -280,17 +247,66 @@ body {
     transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* =================================
-   CSS UNTUK IKON FONT AWESOME DI PETA
-   ================================= */
+#legend.hidden {
+    /* Sembunyikan ke kiri untuk desktop */
+    transform: translateX(-100%);
+}
 
-/* Menghilangkan border dan background default dari L.divIcon */
+#toggle-legend {
+    position: fixed;
+    bottom: 30px;
+    left: 340px; /* Default untuk desktop */
+    z-index: 1100;
+    width: 50px;
+    height: 50px;
+    background: var(--accent-blue);
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 0 25px 0 var(--glow-color);
+    animation: pulse-glow 3s infinite;
+}
+
+/* --- Leaflet & Legend Specifics --- */
+.map-label {
+    background-color: rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+    padding: 2px 5px;
+    font-size: 11px;
+    font-weight: bold;
+    color: #333;
+    text-shadow: 1px 1px 2px white;
+    box-shadow: none;
+    white-space: nowrap;
+}
+
+.hidden-icon {
+    background-color: transparent;
+    border: none;
+}
+
+.text-path {
+    font-size: 10px;
+    font-weight: 600;
+    paint-order: stroke;
+    stroke: #ffffff;
+    stroke-width: 2px;
+    stroke-linecap: butt;
+    stroke-linejoin: miter;
+    text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff;
+}
+
 .custom-div-icon {
     background: transparent;
     border: none;
 }
 
-/* Membuat bentuk pin marker */
 .marker-pin {
     width: 30px;
     height: 30px;
@@ -305,43 +321,11 @@ body {
     align-items: center;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
     border: 2px solid #fff;
-    /* Memberi outline putih agar lebih jelas */
 }
 
-/* Menempatkan ikon di dalam pin */
 .marker-pin i {
     transform: rotate(45deg);
     font-size: 14px;
-}
-
-/* Class untuk menyembunyikan ikon marker default (digunakan untuk label toponimi) */
-.hidden-icon {
-    display: none;
-}
-
-/* Styling untuk label toponimi */
-.map-label {
-    background-color: rgba(255, 255, 255, 0.75);
-    border-color: rgba(0, 0, 0, 0.5);
-    border-radius: 4px;
-    color: #333;
-    font-weight: bold;
-    font-size: 11px;
-    padding: 2px 6px;
-    box-shadow: none;
-    border-width: 1px;
-    white-space: nowrap;
-    /* Mencegah label terpotong */
-}
-
-/* Styling untuk label di sepanjang garis (jalan/sungai) */
-.text-path {
-    text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff;
-    /* Efek outline putih */
-}
-
-#legend.hidden {
-    transform: translateX(-100%);
 }
 
 #legend h6 {
@@ -355,7 +339,7 @@ body {
     border-radius: 8px;
     padding: 1rem;
     margin-bottom: 1rem;
-    transition: box-shadow 0.3s;
+    transition: box-shadow 0.3s; /* Kept from old CSS for consistency */
 }
 
 .legend-group-title {
@@ -371,6 +355,7 @@ body {
     padding: 4px 0;
 }
 
+/* Kept from old CSS for consistency for checkbox */
 .legend-entry input[type="checkbox"],
 .legend-entry input[type="color"],
 .teluk-outline-display {
@@ -390,42 +375,80 @@ body {
     flex-grow: 1;
     font-size: 0.95rem;
     word-break: break-word;
-    color: var(--text-dark);
+    color: var(--text-dark); /* Kept from old CSS for consistency */
+}
+
+/* --- Responsive Design --- */
+@media (max-width: 992px) {
+    .chart-container {
+        height: 300px;
+    }
+
+    /* Aturan responsif untuk Tur Virtual */
+    .tour-layout {
+        flex-direction: column;
+    }
+
+    #story-panel {
+        flex: 0 0 50vh;
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    #map-panel {
+        height: 50vh;
+    }
+
+    /* Di layar kecil, pop-up dibuat lebih kecil lagi */
+    .tour-popover {
+        max-width: 180px;
+    }
+}
+
+/* ======================================================= */
+/* --- PERBAIKAN RESPONSIVE MOBILE (<= 768px) --- */
+/* ======================================================= */
+@media (max-width: 768px) {
+    /* Peta selalu mengambil lebar penuh */
+    #map {
+        top: 67px;
+        left: 0 !important;
+    }
+
+    /* Legenda diposisikan di BAWAH layar */
+    #legend {
+        top: auto; /* Hapus properti top */
+        bottom: 0; /* Posisikan di bawah */
+        left: 0;
+        width: 100%;
+        max-height: 60vh; /* Batasi ketinggian agar tidak menutupi semua */
+        border-right: none;
+        border-top: 1px solid var(--border-color); /* Beri batas atas */
+        transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* Saat legenda disembunyikan di mobile, geser ke bawah */
+    #legend.hidden {
+        transform: translateY(100%);
+    }
+
+    /* Tombol toggle diposisikan di tengah bawah */
+    #toggle-legend {
+        width: 50px;
+        height: 50px;
+        font-size: 1.5rem;
+        border-radius: 50%;
+        left: 50%;
+        transform: translateX(-50%);
+        bottom: 20px;
+    }
 }
 
 
-/* Toggle Button for Legend (Soft Blue Style) */
-#toggle-legend {
-    position: fixed;
-    bottom: 30px;
-    left: 340px;
-    z-index: 1100;
-    width: 50px;
-    height: 50px;
-    background: var(--accent-blue);
-    color: #fff;
-    border: none;
-    border-radius: 50%;
-    font-size: 1.5rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    box-shadow: 0 0 25px 0 var(--glow-color);
-    animation: pulse-glow 3s infinite;
-}
-
-#toggle-legend:hover {
-    transform: scale(1.1);
-}
-
-#toggle-legend.hidden-left {
-    left: 30px;
-    transform: rotate(180deg);
-}
-
-
-/* --- Polished, Soft Blue Footer --- */
+/* ======================================================= */
+/* --- Sisa kode CSS (tidak diubah) --- */
+/* ======================================================= */
 .footer {
     background: var(--bg-panel);
     padding: 3rem 0 2rem;
@@ -778,77 +801,4 @@ body {
     object-fit: cover;
     border-bottom-left-radius: 9px;
     border-bottom-right-radius: 9px;
-}
-
-/* ======================================================= */
-/* --- Responsive Design (Digabungkan) --- */
-/* ======================================================= */
-
-@media (max-width: 992px) {
-    .chart-container {
-        height: 300px;
-    }
-
-    /* Aturan responsif untuk Tur Virtual */
-    .tour-layout {
-        flex-direction: column;
-    }
-
-    #story-panel {
-        flex: 0 0 50vh;
-        width: 100%;
-        border-right: none;
-        border-bottom: 1px solid var(--border-color);
-    }
-
-    #map-panel {
-        height: 50vh;
-    }
-
-    /* Di layar kecil, pop-up dibuat lebih kecil lagi */
-    .tour-popover {
-        max-width: 180px;
-    }
-}
-
-@media (max-width: 768px) {
-    #map {
-        top: 67px;
-        left: 0 !important;
-    }
-
-    #legend {
-        top: 67px;
-        width: 100%;
-        max-height: calc(100% - 150px);
-        transform: translateY(-110%);
-    }
-
-    #legend.hidden-mobile-show {
-        transform: translateY(0);
-    }
-
-    #toggle-legend {
-        width: auto;
-        padding: 10px 20px;
-        font-size: 1rem;
-        height: auto;
-        border-radius: 50px;
-        left: 50%;
-        transform: translateX(-50%);
-        bottom: 20px;
-    }
-
-    #toggle-legend.hidden-left {
-        left: 50%;
-        transform: translateX(-50%);
-    }
-
-    #toggle-legend:hover {
-        transform: scale(1.05) translateX(-50%);
-    }
-
-    .footer {
-        text-align: center;
-    }
 }
