@@ -1,0 +1,4 @@
+{"type":"FeatureCollection", "features": [
+{"type":"Feature","geometry":{"type":"Point","coordinates":[110.18628900710068,-7.566954716409819]},"properties":{"OBJECTID":3,"KETERANGAN":"3"}},
+{"type":"Feature","geometry":{"type":"Point","coordinates":[110.1843000370501,-7.566145207955687]},"properties":{"OBJECTID":4,"KETERANGAN":"3"}}
+]}

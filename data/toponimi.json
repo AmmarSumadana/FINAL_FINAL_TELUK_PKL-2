@@ -1,0 +1,11 @@
+{"type":"FeatureCollection", "features": [
+{"type":"Feature","geometry":{"type":"Point","coordinates":[110.1838880593783,-7.56611283258523]},"properties":{"OBJECTID":1,"KETERANGAN":"Masjid Al Barokah"}},
+{"type":"Feature","geometry":{"type":"Point","coordinates":[110.1860101023085,-7.566129242946568]},"properties":{"OBJECTID":2,"KETERANGAN":"Masjid Teluk"}},
+{"type":"Feature","geometry":{"type":"Point","coordinates":[110.1861421544982,-7.5673296399366565]},"properties":{"OBJECTID":3,"KETERANGAN":"Az Zira Tirta Gemilang"}},
+{"type":"Feature","geometry":{"type":"Point","coordinates":[110.18660232368484,-7.567488445340732]},"properties":{"OBJECTID":4,"KETERANGAN":"Warung Kungkum"}},
+{"type":"Feature","geometry":{"type":"Point","coordinates":[110.18675050906819,-7.567118984489204]},"properties":{"OBJECTID":5,"KETERANGAN":"Pemakaman Islam Dusun Teluk"}},
+{"type":"Feature","geometry":{"type":"Point","coordinates":[110.18629032673063,-7.566967359053064]},"properties":{"OBJECTID":6,"KETERANGAN":"Warung Ma'ruf"}},
+{"type":"Feature","geometry":{"type":"Point","coordinates":[110.1842783373343,-7.566147074016176]},"properties":{"OBJECTID":8,"KETERANGAN":"Warung Puji"}},
+{"type":"Feature","geometry":{"type":"Point","coordinates":[110.18822113671105,-7.564830277696707]},"properties":{"OBJECTID":9,"KETERANGAN":"Jembatan Kalinegoro"}},
+{"type":"Feature","geometry":{"type":"Point","coordinates":[110.18700576643506,-7.568254485586095]},"properties":{"OBJECTID":10,"KETERANGAN":"Jembatan Kali Plangker"}}
+]}
